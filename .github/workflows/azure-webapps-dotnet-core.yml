@@ -21,7 +21,7 @@ name: Build and deploy ASP.Net Core app to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: WebApp    # set this to the name of your Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: '/WebApp'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5'                 # set this to the .NET Core version to use
 
 on:
@@ -37,14 +37,19 @@ jobs:
     name: running in self hosted
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         name: Checkout code
         
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '6.0'
-
+          dotnet-version: '6.0'  # Specify the .NET version you are using
+        env:
+          DOTNET_INSTALL_DIR: ${{ runner.temp }}/dotnet  # Custom .NET install location
+          
+      - name: Add .NET to PATH
+        run: echo "${{ runner.temp }}/dotnet" >> $GITHUB_PATH
+      
       - name: Restore dependencies
         run: dotnet restore
 
