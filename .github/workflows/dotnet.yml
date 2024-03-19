@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted  # Specifies that this job runs on a self-hosted runner
+    runs-on: self-hosted  # Use your self-hosted runner label here if needed
 
     steps:
     - uses: actions/checkout@v3
@@ -17,10 +17,12 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '6.0'  # Specify the .NET version your project uses
+        dotnet-version: '6.0'  # Adjust the .NET version as per your project's requirement
 
     - name: Restore dependencies
-      run: dotnet restore ./WebApp/WebApp.csproj  # Adjust the path to your .csproj file
+      run: dotnet restore
+      working-directory: ./WebApp  # Set the working directory to your project's root
 
     - name: Build
-      run: dotnet build --no-restore --configuration Release ./WebApp/WebApp.csproj  # Adjust the path to your .csproj file
+      run: dotnet build --no-restore --configuration Release
+      working-directory: ./WebApp  # Set the working directory to your project's root
