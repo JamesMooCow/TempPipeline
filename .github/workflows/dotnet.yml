@@ -4,7 +4,7 @@
 name: .NET
 defaults:
   run:
-    working-directory: WebApp
+    working-directory: ./WebApp
 
 on:
   push:
